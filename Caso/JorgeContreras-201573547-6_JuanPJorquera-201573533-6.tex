@@ -65,20 +65,23 @@
 \begin{center}
 	\includegraphics[scale=0.5]{conceptual.png}
 \end{center}
-\let\thefootnote\relax\footnote{En varios caso se asumieron cosas en las cardinalidades como:
+\let\thefootnote\relax\footnote{
 	\begin{itemize}
-		\item Cine puede tener 0 salas, ya que puede ser nuevo sin tenerlas asignadas aún.
-		\item Sala puede tener 0 películas, ya que se puede encontrar en mantención.
+		\item Se considera que los asientos se van llenando de forma ordenada, de modo que el número de asiento permite identificar el último asiento posible.
+		\item Se relacionó comentarios con usuario, ya que son estos los que comentan las películas, por lo que se deja para la implementación decidir si se hace algo para los empleados que deseen comentar.
 	\end{itemize}
 }
-\footnote{Se considera que los asientos se van llenando de forma ordenada, de modo que el número de asiento permite identificar el último asiento posible.}
 
 \newpage
 \section{Modelo Lógico}
 \vspace{0.6cm}
 \begin{center}
-	\includegraphics[scale=0.53]{logico.png}
+	\includegraphics[scale=0.5]{logico.png}
 \end{center}
-\footnote{En actores y directores se tomó el nombre como PK, ya que al momento de que el empleado ingrese uno nuevo, no hay forma de determinar si estaba ya ingresado más que con dicho nombre.}
-
+\footnote{
+	\begin{itemize}
+		\item En actores y directores se tomó el nombre como PK, ya que al momento de que el empleado ingrese uno nuevo, no hay forma de determinar si estaba ya ingresado más que con dicho nombre.
+		\item Para facilitar el trabajo se crearon algunas claves primarias como: id$\_$funcion o id$\_$cliente.
+	\end{itemize}
+}
 \end{document}
