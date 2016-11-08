@@ -12,7 +12,7 @@
 \usepackage{amssymb,amsmath}
 \usepackage[pdftex]{graphicx}
 \pagestyle{fancy} 
-\pagenumbering{arabic} 
+\pagenumbering{gobble}
 \renewcommand{\headrulewidth}{0pt} 
 \setlength{\headsep}{20pt} 
 \setlength{\headheight}{65pt} 
@@ -35,8 +35,6 @@
 \begin{Large}
 \textbf{\titulo}\\
 \end{Large}
-\vspace{0.5cm}
-\integrantes
 \end{center}
 \vspace{0.3cm}
 }
@@ -65,20 +63,23 @@
 \section{Modelo Conceptual}
 \vspace{0.6cm}
 \begin{center}
-	\includegraphics[height=15cm]{conceptual.png}
+	\includegraphics[scale=0.5]{conceptual.png}
 \end{center}
-\footnotetext{En varios caso se asumieron cosas en las cardinalidades como:
-\begin{itemize}
-	\item Cine puede tener 0 salas, ya que puede ser nuevo sin tenerlas asignadas aún.
-	\item Sala puede tener 0 películas, ya que se puede encontrar en mantención.
-\end{itemize}}
+\let\thefootnote\relax\footnote{En varios caso se asumieron cosas en las cardinalidades como:
+	\begin{itemize}
+		\item Cine puede tener 0 salas, ya que puede ser nuevo sin tenerlas asignadas aún.
+		\item Sala puede tener 0 películas, ya que se puede encontrar en mantención.
+	\end{itemize}
+}
+\footnote{Se considera que los asientos se van llenando de forma ordenada, de modo que el número de asiento me permite identificar el último posible.}
+\footnote{}
 
 \newpage
 \section{Modelo Lógico}
 \vspace{0.6cm}
 \begin{center}
-	\includegraphics[height=16.5cm]{logico.png}
+	\includegraphics[scale=0.5]{logico.png}
 \end{center}
-
+\footnote{En actores y directores se tomó el nombre como PK, ya que al momento de que el empleado ingrese uno nuevo el, no hay forma de determinar si estaba ya ingresado más que con dicho nombre.}
 
 \end{document}
