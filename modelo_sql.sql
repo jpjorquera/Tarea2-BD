@@ -198,35 +198,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cinema`.`FUNCION`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cinema`.`FUNCION` (
-  `SALA_n_sala` INT NOT NULL,
-  `PELICULA_id_pelicula` INT NOT NULL,
-  `fecha-hora` DATETIME NOT NULL,
-  `PROYECTADOR_EMPLEADO_id_empleado` INT NULL,
-  PRIMARY KEY (`SALA_n_sala`, `PELICULA_id_pelicula`, `fecha-hora`),
-  INDEX `fk_FUNCION_PELICULA1_idx` (`PELICULA_id_pelicula` ASC),
-  INDEX `fk_FUNCION_PROYECTADOR1_idx` (`PROYECTADOR_EMPLEADO_id_empleado` ASC),
-  CONSTRAINT `fk_FUNCION_SALA1`
-    FOREIGN KEY (`SALA_n_sala`)
-    REFERENCES `cinema`.`SALA` (`n_sala`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_FUNCION_PELICULA1`
-    FOREIGN KEY (`PELICULA_id_pelicula`)
-    REFERENCES `cinema`.`PELICULA` (`id_pelicula`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_FUNCION_PROYECTADOR1`
-    FOREIGN KEY (`PROYECTADOR_EMPLEADO_id_empleado`)
-    REFERENCES `cinema`.`PROYECTADOR` (`EMPLEADO_id_empleado`)
-    ON DELETE SET NULL
-    ON UPDATE RESTRICT)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `cinema`.`TICKET`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cinema`.`TICKET` (
