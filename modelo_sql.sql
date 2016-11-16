@@ -134,7 +134,7 @@ ENGINE = InnoDB;
 -- Table `cinema`.`PROYECTADOR`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cinema`.`PROYECTADOR` (
-  `EMPLEADO_id_empleado` INT UNSIGNED NOT NULL,
+  `EMPLEADO_id_empleado` INT NOT NULL,
   PRIMARY KEY (`EMPLEADO_id_empleado`),
   CONSTRAINT `fk_PROYECTADOR_EMPLEADO1`
     FOREIGN KEY (`EMPLEADO_id_empleado`)
