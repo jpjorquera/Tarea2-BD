@@ -2,8 +2,11 @@
 
 <?php if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-var_dump($_POST);
-if($_POST['user'] == "bstinton"){echo "usuario correcto";};
+// var_dump($_POST);
+if($_POST['user'] == ""){echo "Usuario incorrecto";}
+elseif(!$result == Null){
+	echo "Usuario no encontrado";
+};
 } ?>
 
 <!DOCTYPE html>
@@ -20,6 +23,7 @@ if($_POST['user'] == "bstinton"){echo "usuario correcto";};
 $sql = <<<SQL
     SELECT *
     FROM `usuario`
+    WHERE 'usuario' = 'user'
 SQL;
 
 if(!$result = $db->query($sql)){
@@ -40,9 +44,9 @@ if(!$result = $db->query($sql)){
 
 <form method="post">
 	<p>Logear en el sitio</p>
-	<label for="user">Usuario: </label>
+	<label for="user">Usuario:   </label>
 	<input type="text" name="user"><br><br>
-	<label for="user">Contraseña: </label>
+	<label for="user">Contraseña:   </label>
 	<input type="password" name="password"><br><br>
 	<button>Entrar</button><br><br>
 </form>

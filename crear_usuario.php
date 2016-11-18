@@ -14,12 +14,12 @@ else{ ?>
 </head>
 <body>
 	<form method="post">
-		<label for="user">Usuario: </label>
-		<input type="text" name="user"><br>
-		<label for="rut">Rut: </label>
-		<input type="text" name="rut"><br>
-		<label for="user">Contraseña: </label>
-		<input type="password" name="password"><br>
+		<label for="user">Usuario:   </label>
+		<input type="text" name="user"><br><br>
+		<label for="rut">Rut:   </label>
+		<input type="text" name="rut"><br><br>
+		<label for="user">Contraseña:   </label>
+		<input type="password" name="password"><br><br>
 		<button>Guardar</button>
 	</form>
 </body>
