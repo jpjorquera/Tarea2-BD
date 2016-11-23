@@ -1,7 +1,6 @@
 <?php include("general.php") ?>
 
 <p><?php 
-var_dump($_POST);
 $error = '';
  ?></p>
 
@@ -11,40 +10,36 @@ $error = '';
 	<meta charset="UTF-8">
 	<title>Document</title>
 </head>
+
 <body>
-
-
 
 <?php 
 
 if(isset($_POST['submit'])) {
     $user = $_POST['us'];
-	echo "<p>El usuario ingresado es: $user \r\n </p>";
-	
-
-	$sql = "SELECT COUNT(*) FROM usuario WHERE user = " + $user;;
-	$result = $db->query($sql);
 	$error='';
-		echo " El resultado del SELECT es: $sql";
-	if($sql == 0) {
-		$error = "Usuario no existe en la base de datos";
+	if ($result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user'")) {
+    	$num_filas =  mysqli_num_rows($result);
+    	if($num_filas == 0) {
+			$error = "Usuario no existe en la base de datos";
+			mysqli_free_result($result);
+		}
+		else {
+			$error = '';
+			mysqli_free_result($result);
+			$pass = $_POST['password'];
+			$result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user' AND password='$pass'");
+			$num_filas =  mysqli_num_rows($result);
+			if($num_filas == 0) {
+				$error = "Contraseña incorrecta";
+				mysqli_free_result($result);
+			}
+			else {
+				mysqli_free_result($result);
+				header('Location: logeado.php');
+			}
+		}
 	}
-	else {
-		echo "asdASD";
-		$error = '';
-		header('Location: logeado.php');
-	}
-
- //   $error='';
-//	if($result->num_rows == 0){
-//		$error = "Usuario no existe en la base de datos";
-//	}
-//	if(!$result = $db->query($sql)){
-//	    die('There was an error running the query [' . $db->error . ']');
-//	}
-
-
-	//$userCount = $row->count;
 }
 
  ?>
@@ -58,7 +53,6 @@ if(isset($_POST['submit'])) {
 	<input type="password" name="password"><br><br>
 	<input type="submit" name="submit" value="Entrar" class="btn btn-primary"/><br/>
 </form>
-
 <p><a href="crear_usuario.php">Crear Usuario</a></p>
 
 </body>
