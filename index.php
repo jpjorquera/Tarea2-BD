@@ -1,13 +1,9 @@
 <?php include("general.php") ?>
 
-<?php if($_SERVER['REQUEST_METHOD'] == "POST"){
-
-// var_dump($_POST);
-if($_POST['user'] == ""){echo "Usuario incorrecto";}
-elseif(!$result == Null){
-	echo "Usuario no encontrado";
-};
-} ?>
+<p><?php 
+var_dump($_POST);
+$error = '';
+ ?></p>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,42 +12,54 @@ elseif(!$result == Null){
 	<title>Document</title>
 </head>
 <body>
-	
+
+
+
 <?php 
 
+if(isset($_POST['submit'])) {
+    $user = $_POST['us'];
+	echo "<p>El usuario ingresado es: $user \r\n </p>";
+	
 
-$sql = <<<SQL
-    SELECT *
-    FROM `usuario`
-    WHERE 'usuario' = 'user'
-SQL;
+	$sql = "SELECT COUNT(*) FROM usuario WHERE user = " + $user;;
+	$result = $db->query($sql);
+	$error='';
+		echo " El resultado del SELECT es: $sql";
+	if($sql == 0) {
+		$error = "Usuario no existe en la base de datos";
+	}
+	else {
+		echo "asdASD";
+		$error = '';
+		header('Location: logeado.php');
+	}
 
-if(!$result = $db->query($sql)){
-    die('There was an error running the query [' . $db->error . ']');
+ //   $error='';
+//	if($result->num_rows == 0){
+//		$error = "Usuario no existe en la base de datos";
+//	}
+//	if(!$result = $db->query($sql)){
+//	    die('There was an error running the query [' . $db->error . ']');
+//	}
+
+
+	//$userCount = $row->count;
 }
 
  ?>
-<table>
-	<tr>
-		<?php while ($row = $result->fetch_assoc()) { ?>
-		<td><?=$row['user'] ?></td>
-		<td><?=$row['password'] ?></td>
-		<td><?=$row['rut'] ?></td>
-		<?php
-		} ?>
-	</tr>
-</table>
 
-<form method="post">
+<form action="" method="post">
+	<p><strong><?php echo $error; ?></strong></p>
 	<p>Logear en el sitio</p>
 	<label for="user">Usuario:   </label>
-	<input type="text" name="user"><br><br>
+	<input type="text" name="us" id="us"><br><br>
 	<label for="user">Contraseña:   </label>
 	<input type="password" name="password"><br><br>
-	<button>Entrar</button><br><br>
+	<input type="submit" name="submit" value="Entrar" class="btn btn-primary"/><br/>
 </form>
 
-<a href="crear_usuario.php">Crear Usuario</a>
+<p><a href="crear_usuario.php">Crear Usuario</a></p>
 
 </body>
 </html>
