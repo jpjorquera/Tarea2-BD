@@ -1,11 +1,6 @@
 <?php include("general.php") ?>
 
-<?php if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-var_dump($_POST);
-
-}
-else{ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,15 +8,56 @@ else{ ?>
 	<title>Document</title>
 </head>
 <body>
+
+<p><?php 
+$error = '';
+ ?></p>
+
+<?php 
+if(isset($_POST['submit'])) {
+    $user = $_POST['us'];
+	$error='';
+	if ($result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user'")) {
+    	$num_filas =  mysqli_num_rows($result);
+    	if($num_filas != 0) {
+			$error = "Nombre de usuario ya usado";
+			mysqli_free_result($result);
+		}
+		else {
+			$error = '';
+			mysqli_free_result($result);
+			$pass = $_POST['password'];
+			$rut = $_POST['rut'];
+			//$result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user' AND password='$pass'");
+			//$num_filas =  mysqli_num_rows($result);
+			//if($num_filas == 0) {
+			//	$error = "Contraseña incorrecta";
+			//	mysqli_free_result($result);
+			//}
+			//else {
+			//	mysqli_free_result($result);
+			//	header('Location: logeado.php');
+			//}
+		}
+	}
+}
+
+ ?>
+
+	<div id="center_button">
+    <button onclick="location.href='index.php'">Home</button>
+	</div><br>
+
 	<form method="post">
-		<label for="user">Usuario:   </label>
-		<input type="text" name="user"><br><br>
-		<label for="rut">Rut:   </label>
+		<p><strong><?php echo $error; ?></strong></p>
+		<label for="user">Usuario: </label>
+		<input type="text" name="us" id="us"><br><br>
+		<label for="rut">Rut: </label>
 		<input type="text" name="rut"><br><br>
-		<label for="user">Contraseña:   </label>
+		<label for="user">Contraseña: </label>
 		<input type="password" name="password"><br><br>
-		<button>Guardar</button>
+		<input type="submit" name="submit" value="Entrar" class="btn btn-primary"/><br/>
 	</form>
+
 </body>
 </html>
-<?php } ?>
