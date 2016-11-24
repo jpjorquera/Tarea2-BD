@@ -28,16 +28,13 @@ if(isset($_POST['submit'])) {
 			mysqli_free_result($result);
 			$pass = $_POST['password'];
 			$rut = $_POST['rut'];
-			//$result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user' AND password='$pass'");
-			//$num_filas =  mysqli_num_rows($result);
-			//if($num_filas == 0) {
-			//	$error = "Contraseña incorrecta";
-			//	mysqli_free_result($result);
-			//}
-			//else {
-			//	mysqli_free_result($result);
-			//	header('Location: logeado.php');
-			//}
+			$result = mysqli_query($db, "INSERT INTO usuario ( user, rut, password )
+                       VALUES
+                       ( '$user', '$rut', '$pass' );");
+			$result = mysqli_query($db, "INSERT INTO cliente ( USUARIO_user )
+                       VALUES
+                       ( '$user' );");
+			$error = 'Usuario creado correctamente';
 		}
 	}
 }
