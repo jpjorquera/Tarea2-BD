@@ -36,7 +36,24 @@ if(isset($_POST['submit'])) {
 			}
 			else {
 				mysqli_free_result($result);
-				header('Location: logeado.php');
+				$result = mysqli_query($db, "SELECT * FROM empleado, vendedor WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
+				$num_filas =  mysqli_num_rows($result);
+				if($num_filas != 0){
+					mysqli_free_result($result);
+					header('Location: vendedor.php');
+				}
+				else{
+					$result = mysqli_query($db, "SELECT * FROM empleado, proyectador WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
+					$num_filas =  mysqli_num_rows($result);
+					if($num_filas != 0){
+						mysqli_free_result($result);
+						header('Location: proyectador.php');
+					}
+					else {
+						mysqli_free_result($result);
+						header('Location: logeado.php');
+					}
+				}
 			}
 		}
 	}
