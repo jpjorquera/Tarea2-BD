@@ -31,11 +31,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `cinema`.`SALA`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `cinema`.`SALA` (
-  `n_sala` INT NOT NULL AUTO_INCREMENT,
+  `n_sala` INT NOT NULL,
   `n_asientos` INT NULL DEFAULT 100,
   `CINE_id_cine` INT NOT NULL,
-  PRIMARY KEY (`n_sala`),
+  PRIMARY KEY (`n_sala`, `CINE_id_cine`),
   UNIQUE INDEX `n_sala_UNIQUE` (`n_sala` ASC),
   INDEX `fk_SALA_CINE_idx` (`CINE_id_cine` ASC),
   CONSTRAINT `fk_SALA_CINE`
