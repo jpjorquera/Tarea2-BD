@@ -1,0 +1,1 @@
+- Las contraseñas de todos los empleados son 1234.
