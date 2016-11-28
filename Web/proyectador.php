@@ -7,6 +7,9 @@
 <body>
 
 <p>Hola buenas tardes, PROYECTADOR</p>
+<button onclick="location.href='index.php'">Home</button><br><br>
+<button onclick="location.href='ingresarp_proyectador.php'">Ingresar Película</button><br><br>
+<button onclick="location.href='index.php'">Ingresar Función</button><br><br>
 
 </body>
 </html>

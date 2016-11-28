@@ -112,4 +112,3 @@ INSERT INTO DIRIGE ( PELICULA_id_pelicula, DIRECTOR_nombre )
 INSERT INTO DIRIGE ( PELICULA_id_pelicula, DIRECTOR_nombre )
                        VALUES
                        ( 2, 'Denis Villeneuve' );
-                       

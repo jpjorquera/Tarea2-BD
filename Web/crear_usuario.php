@@ -53,7 +53,7 @@ if(isset($_POST['submit'])) {
 		<input type="text" name="rut"><br><br>
 		<label for="user">Contraseña: </label>
 		<input type="password" name="password"><br><br>
-		<input type="submit" name="submit" value="Entrar" class="btn btn-primary"/><br/>
+		<input type="submit" name="submit" value="Crear" class="btn btn-primary"/><br/>
 	</form>
 
 </body>
