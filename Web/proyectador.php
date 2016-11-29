@@ -10,6 +10,7 @@
 <button onclick="location.href='index.php'">Home</button><br><br>
 <button onclick="location.href='ingresarp_proyectador.php'">Ingresar Película</button><br><br>
 <button onclick="location.href='index.php'">Ingresar Función</button><br><br>
+<button onclick="location.href='cartelera_proyectador.php'">Ver cartelera</button><br><br>
 
 </body>
 </html>

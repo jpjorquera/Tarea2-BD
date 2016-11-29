@@ -8,5 +8,8 @@
 
 <p>Hola buenas tardes</p>
 
+<button onclick="location.href='index.php'">Home</button><br><br>
+<button onclick="location.href='cartelera_user.php'">Ver cartelera</button><br><br>
+
 </body>
 </html>
