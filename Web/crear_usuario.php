@@ -17,7 +17,7 @@ $error = '';
 if(isset($_POST['submit'])) {
     $user = $_POST['us'];
 	$error='';
-	if ($result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user'")) {
+	if ($result = mysqli_query($db, "SELECT * FROM USUARIO WHERE user='$user'")) {
     	$num_filas =  mysqli_num_rows($result);
     	if($num_filas != 0) {
 			$error = "Nombre de usuario ya usado";
@@ -28,10 +28,10 @@ if(isset($_POST['submit'])) {
 			mysqli_free_result($result);
 			$pass = $_POST['password'];
 			$rut = $_POST['rut'];
-			$result = mysqli_query($db, "INSERT INTO usuario ( user, rut, password )
+			$result = mysqli_query($db, "INSERT INTO USUARIO ( user, rut, password )
                        VALUES
                        ( '$user', '$rut', '$pass' );");
-			$result = mysqli_query($db, "INSERT INTO cliente ( USUARIO_user )
+			$result = mysqli_query($db, "INSERT INTO CLIENTE ( USUARIO_user )
                        VALUES
                        ( '$user' );");
 			$error = 'Usuario creado correctamente';

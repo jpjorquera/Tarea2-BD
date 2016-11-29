@@ -24,7 +24,7 @@ if(isset($_POST['submit'])) {
     	if ($precio == ""){
     		$precio = 5000;
     	}
-    	$result = mysqli_query($db, "INSERT INTO pelicula ( titulo, genero, clasificacion, precio )
+    	$result = mysqli_query($db, "INSERT INTO PELICULA ( titulo, genero, clasificacion, precio )
                        VALUES
                        ( '$titulo', '$genero', '$clasificacion', '$precio' );");
     	$max_id = mysqli_query($db, "SELECT max(id_pelicula) FROM cinema.PELICULA");
@@ -37,14 +37,14 @@ if(isset($_POST['submit'])) {
     		$array_directores = preg_split('/[,]+/', $director, -1, PREG_SPLIT_NO_EMPTY);
     		foreach ($array_directores as $dir){
     			$dir = trim($dir);
-    			$result = mysqli_query($db, "SELECT * FROM director WHERE nombre='$dir'");
+    			$result = mysqli_query($db, "SELECT * FROM DIRECTOR WHERE nombre='$dir'");
 				$num_filas =  mysqli_num_rows($result);
 				if ($num_filas == 0){
-					$result = mysqli_query($db, "INSERT INTO director ( nombre )
+					$result = mysqli_query($db, "INSERT INTO DIRECTOR ( nombre )
                        VALUES
                        ( '$dir' );");
 				}
-				$result = mysqli_query($db, "INSERT INTO dirige ( DIRECTOR_nombre, PELICULA_id_pelicula )
+				$result = mysqli_query($db, "INSERT INTO DIRIGE ( DIRECTOR_nombre, PELICULA_id_pelicula )
                        VALUES
                        ( '$dir', '$id_actual' );");
     		}
@@ -53,14 +53,14 @@ if(isset($_POST['submit'])) {
     		$array_actores = preg_split('/[,]+/', $actores, -1, PREG_SPLIT_NO_EMPTY);
     		foreach ($array_actores as $act){
     			$act = trim($act);
-    			$result = mysqli_query($db, "SELECT * FROM actor WHERE nombre='$act'");
+    			$result = mysqli_query($db, "SELECT * FROM ACTOR WHERE nombre='$act'");
 				$num_filas =  mysqli_num_rows($result);
 				if ($num_filas == 0){
-					$result = mysqli_query($db, "INSERT INTO actor ( nombre )
+					$result = mysqli_query($db, "INSERT INTO ACTOR ( nombre )
                        VALUES
                        ( '$act' );");
 				}
-				$result = mysqli_query($db, "INSERT INTO actua ( ACTOR_nombre, PELICULA_id_pelicula )
+				$result = mysqli_query($db, "INSERT INTO ACTUA ( ACTOR_nombre, PELICULA_id_pelicula )
                        VALUES
                        ( '$act', '$id_actual' );");
     		}

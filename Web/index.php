@@ -18,7 +18,7 @@ $error = '';
 if(isset($_POST['submit'])) {
     $user = $_POST['us'];
 	$error='';
-	if ($result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user'")) {
+	if ($result = mysqli_query($db, "SELECT * FROM USUARIO WHERE user='$user'")) {
     	$num_filas =  mysqli_num_rows($result);
     	if($num_filas == 0) {
 			$error = "Usuario no existe en la base de datos";
@@ -28,7 +28,7 @@ if(isset($_POST['submit'])) {
 			$error = '';
 			mysqli_free_result($result);
 			$pass = $_POST['password'];
-			$result = mysqli_query($db, "SELECT * FROM usuario WHERE user='$user' AND password='$pass'");
+			$result = mysqli_query($db, "SELECT * FROM USUARIO WHERE user='$user' AND password='$pass'");
 			$num_filas =  mysqli_num_rows($result);
 			if($num_filas == 0) {
 				$error = "Contraseña incorrecta";
@@ -36,14 +36,14 @@ if(isset($_POST['submit'])) {
 			}
 			else {
 				mysqli_free_result($result);
-				$result = mysqli_query($db, "SELECT * FROM empleado, vendedor WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
+				$result = mysqli_query($db, "SELECT * FROM EMPLEADO, VENDEDOR WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
 				$num_filas =  mysqli_num_rows($result);
 				if($num_filas != 0){
 					mysqli_free_result($result);
 					header('Location: vendedor.php');
 				}
 				else{
-					$result = mysqli_query($db, "SELECT * FROM empleado, proyectador WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
+					$result = mysqli_query($db, "SELECT * FROM EMPLEADO, PROYECTADOR WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
 					$num_filas =  mysqli_num_rows($result);
 					if($num_filas != 0){
 						mysqli_free_result($result);
