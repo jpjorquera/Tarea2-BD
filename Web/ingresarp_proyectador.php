@@ -70,7 +70,7 @@ if(isset($_POST['submit'])) {
 
  ?>
 
-<p>Ingresar pelicula vendedor</p>
+<p>Ingresar pelicula proyectador</p>
 
 <button onclick="location.href='index.php'">Home</button>
 <button onclick="location.href='proyectador.php'">Volver</button>
