@@ -10,65 +10,42 @@
 <?php 
 $error = '';
 if(isset($_POST['submit'])) {
-    $selectOption = $_POST['cines'];
-    echo "Opcion $selectOption";
+    $resultcine = $_POST['cines'];
+    echo "OpcionC $resultcine";
+    $resultpeli = $_POST['pelis'];
+    echo "OpcionP $resultpeli";
 
     $sala = $_POST['num_sala'];
     $fecha = $_POST['fecha'];
-    $clasificacion = $_POST['clasif'];
-    $precio = $_POST['precio'];
-    if ($titulo == ""){
-    	$error = 'Ingrese un título válido';
+    $hora = $_POST['hora'];
+
+    if($sala==''){
+      $error = 'Ingrese una sala válida';
     }
-    else {
-    	if ($clasificacion == ""){
-    		$clasificacion = 'TE';
-    	}
-    	if ($precio == ""){
-    		$precio = 5000;
-    	}
-    	$result = mysqli_query($db, "INSERT INTO PELICULA ( titulo, genero, clasificacion, precio )
-                       VALUES
-                       ( '$titulo', '$genero', '$clasificacion', '$precio' );");
-    	$max_id = mysqli_query($db, "SELECT max(id_pelicula) FROM cinema.PELICULA");
-    	$ids = mysqli_fetch_row($max_id);
-    	$id_actual = -1;
-    	foreach ($ids as $id_actual);
-    	$actores = $_POST['nom_actores'];
-    	$director = $_POST['nom_director'];
-    	if ($director != ""){
-    		$array_directores = preg_split('/[,]+/', $director, -1, PREG_SPLIT_NO_EMPTY);
-    		foreach ($array_directores as $dir){
-    			$dir = trim($dir);
-    			$result = mysqli_query($db, "SELECT * FROM DIRECTOR WHERE nombre='$dir'");
-				$num_filas =  mysqli_num_rows($result);
-				if ($num_filas == 0){
-					$result = mysqli_query($db, "INSERT INTO DIRECTOR ( nombre )
-                       VALUES
-                       ( '$dir' );");
-				}
-				$result = mysqli_query($db, "INSERT INTO DIRIGE ( DIRECTOR_nombre, PELICULA_id_pelicula )
-                       VALUES
-                       ( '$dir', '$id_actual' );");
-    		}
-    	}
-    	if ($actores != ""){
-    		$array_actores = preg_split('/[,]+/', $actores, -1, PREG_SPLIT_NO_EMPTY);
-    		foreach ($array_actores as $act){
-    			$act = trim($act);
-    			$result = mysqli_query($db, "SELECT * FROM ACTOR WHERE nombre='$act'");
-				$num_filas =  mysqli_num_rows($result);
-				if ($num_filas == 0){
-					$result = mysqli_query($db, "INSERT INTO ACTOR ( nombre )
-                       VALUES
-                       ( '$act' );");
-				}
-				$result = mysqli_query($db, "INSERT INTO ACTUA ( ACTOR_nombre, PELICULA_id_pelicula )
-                       VALUES
-                       ( '$act', '$id_actual' );");
-    		}
-    	}
+    else{
+      $validar = mysqli_query($db, "SELECT * FROM cinema.CINE, cinema.SALA WHERE CINE.id_cine='$resultcine' AND SALA.n_sala = '$sala'");
+      $num_filas =  mysqli_num_rows($validar);
+      if($num_filas == 0) {
+        $error = "Ingrese una sala válida";
+      }
+      else{
+        if($fecha=='' or $fecha > 7){
+          $error = 'Ingrese una fecha válida';
+        }
+        else{
+          if (preg_match("/([0-1][0-9]|[0-2][0-3]):([0-5][0-9]|[0-5][0-9])/", $hora)){
+            $result = mysqli_query($db, "INSERT INTO FUNCION ( SALA_n_sala, PELICULA_id_pelicula, dia, hora )
+              VALUES
+              ( '$sala', '$resultpeli', '$fecha', '$hora' );");
+          }
+          else{
+            $error = 'Ingrese una hora válida (HH:MM)';
+          }
+        }
+      }
     }
+    
+    	
 }
 
  ?>
@@ -118,8 +95,10 @@ if(isset($_POST['submit'])) {
 	<p><strong><?php echo $error; ?></strong></p>
 	<label for="user"> Número de Sala:   </label>
 	<input type="text" name="num_sala" id="num_sala"><br><br>
-	<label for="user"> Fecha/hora:   </label>
+	<label for="user"> Fecha(número, lunes equivale a 1):   </label>
 	<input type="text" name="fecha"><br><br>
+  <label for="user"> Hora(HH:MM):   </label>
+  <input type="text" name="hora"><br><br>
 	<input type="submit" name="submit" value="Ingresar Función" class="btn btn-primary"/><br/>
 </form>
 
