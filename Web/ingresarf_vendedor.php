@@ -11,12 +11,9 @@
 $error = '';
 if(isset($_POST['submit'])) {
     $resultcine = $_POST['cines'];
-    echo "OpcionC $resultcine";
     $resultpeli = $_POST['pelis'];
-    echo "OpcionP $resultpeli";
-
+    $fecha = $_POST['dia'];
     $sala = $_POST['num_sala'];
-    $fecha = $_POST['fecha'];
     $hora = $_POST['hora'];
 
     if($sala==''){
@@ -90,13 +87,21 @@ if(isset($_POST['submit'])) {
     $select_pelis .= "</select>" ;
     echo $select_pelis
     ?>
-  <br>
+
+  <br><br><label for="user"> Día:   </label>
+  <select name="dia">
+    <option value=1>Lunes</option>
+    <option value=2>Martes</option>
+    <option value=3>Miércoles</option>
+    <option value=4>Jueves</option>
+    <option value=5>Viernes</option>
+    <option value=6>Sábado</option>
+    <option value=7>Domingo</option>
+  </select>
 
 	<p><strong><?php echo $error; ?></strong></p>
 	<label for="user"> Número de Sala:   </label>
 	<input type="text" name="num_sala" id="num_sala"><br><br>
-	<label for="user"> Fecha(número, lunes equivale a 1):   </label>
-	<input type="text" name="fecha"><br><br>
   <label for="user"> Hora(HH:MM):   </label>
   <input type="text" name="hora"><br><br>
 	<input type="submit" name="submit" value="Ingresar Función" class="btn btn-primary"/><br/>
