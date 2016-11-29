@@ -42,10 +42,10 @@ if(isset($_POST['submit'])) {
 
  ?>
 
-<p>Ingresar pelicula vendedor</p>
+<p>Ingresar función</p>
 
 <button onclick="location.href='index.php'">Home</button>
-<button onclick="location.href='vendedor.php'">Volver</button>
+<button onclick="location.href='empleado.php'">Volver</button>
 
 <form action="" method="post">
   <br><br><label for="user"> Cine:   </label>

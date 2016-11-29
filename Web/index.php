@@ -38,19 +38,24 @@ if(isset($_POST['submit'])) {
 				mysqli_free_result($result);
 				$result = mysqli_query($db, "SELECT * FROM EMPLEADO, VENDEDOR WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
 				$num_filas =  mysqli_num_rows($result);
+				session_start();
+				$_SESSION['usuario'] = $user;
 				if($num_filas != 0){
 					mysqli_free_result($result);
-					header('Location: vendedor.php');
+					$_SESSION['tipo'] = "vendedor";
+					header('Location: empleado.php');
 				}
 				else{
 					$result = mysqli_query($db, "SELECT * FROM EMPLEADO, PROYECTADOR WHERE USUARIO_user='$user' AND id_empleado = EMPLEADO_id_empleado");
 					$num_filas =  mysqli_num_rows($result);
 					if($num_filas != 0){
 						mysqli_free_result($result);
-						header('Location: proyectador.php');
+						$_SESSION['tipo'] = "proyectador";
+						header('Location: empleado.php');
 					}
 					else {
 						mysqli_free_result($result);
+						$_SESSION['tipo'] = "cliente";
 						header('Location: logeado.php');
 					}
 				}

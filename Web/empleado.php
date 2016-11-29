@@ -5,14 +5,14 @@
 	<title>Document</title>
 </head>
 <body>
-
-<p>Bienvenido a SansanoFilms!</p>
 <?php 
   session_start();
   $usuario = $_SESSION['usuario'];
   $tipo = $_SESSION['tipo'];
 ?>
 <button onclick="location.href='index.php'">Home</button><br><br>
+<button onclick="location.href='ingresar_pelicula.php'">Ingresar Película</button><br><br>
+<button onclick="location.href='ingresar_funcion.php'">Ingresar Función</button><br><br>
 <button onclick="location.href='cartelera.php'">Ver cartelera</button><br><br>
 
 </body>

@@ -6,7 +6,12 @@
 </head>
 <body>
 
-<?php include("general.php") ?>
+<?php 
+    include("general.php");
+    session_start();
+    $usuario = $_SESSION['usuario'];
+    $tipo = $_SESSION['tipo'];
+?>
 
 <?php 
     $titulo = "";
@@ -100,7 +105,14 @@
  ?>
 
 <button onclick="location.href='index.php'">Home</button><br><br>
-<button onclick="location.href='logeado.php'">Volver</button>
+<?php 
+    if ($tipo == "cliente"){
+        echo "<button onclick=\"location.href='logeado.php'\">Volver</button><br><br>";
+    }
+    else {
+        echo "<button onclick=\"location.href='empleado.php'\">Volver</button><br><br>";
+    }
+ ?>
 
 <form action="" method="post">
   <br><br><label for="user"> Películas:   </label>
