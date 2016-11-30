@@ -15,10 +15,18 @@
     else {
         $estadoComentario=$_GET['ingresarCom'];
     }
+    if (empty($_GET['modificarPel'])){
+        $estadoPelicula=false;
+    }
+    else {
+        $estadoPelicula=$_GET['modificarPel'];
+    }
     $usuario = $_SESSION['usuario'];
     $tipo = $_SESSION['tipo'];
     $boton = "";
+    $boton2 = "";
     $form_comentario = "";
+    $form_pelicula = "";
     $error = "";
 ?>
 
@@ -46,6 +54,98 @@
 
  ?>
 
+ <?php
+    if (!empty($_POST['modificar'])){
+        if (isset($_POST['modificar'])) {
+            $titulo = $_POST['titulo'];
+            $genero = $_POST['genero'];
+            $clasificacion = $_POST['clasificacion'];
+            $precio = $_POST['precio'];
+            $actores = $_POST['actores'];
+            $director = $_POST['directores'];
+            $actual = $_SESSION['peli_actual'];
+            $modified = false;
+            if ($titulo != ""){
+                echo "Cambie titulo";
+                //$query = "UPDATE PELICULA 
+                  //  SET titulo = '$titulo
+                    //WHERE id_pelicula = $actual";
+                //echo $query;
+                $result = mysqli_query($db, "UPDATE PELICULA 
+                    SET titulo = '$titulo'
+                    WHERE id_pelicula = $actual");
+                $modified = true;
+            }
+            if ($genero != ""){
+                echo "Cambie genero";
+                $result = mysqli_query($db, "UPDATE PELICULA 
+                    SET genero = '$genero'
+                    WHERE id_pelicula = $actual");
+                $modified = true;
+            }
+            if ($clasificacion != ""){
+                echo "Cambie clasificacion";
+                $result = mysqli_query($db, "UPDATE PELICULA 
+                    SET clasificacion = '$clasificacion'
+                    WHERE id_pelicula = $actual");
+                $modified = true;
+            }
+            if ($precio != ""){
+                echo "Cambie precio";
+                $result = mysqli_query($db, "UPDATE PELICULA 
+                    SET precio = $precio
+                    WHERE id_pelicula = $actual");
+                $modified = true;
+            }
+            if ($actores != ""){
+                echo "Agregue actores";
+                $array_actores = preg_split('/[,]+/', $actores, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($array_actores as $act){
+                    $act = trim($act);
+                    $result = mysqli_query($db, "SELECT * FROM ACTOR WHERE nombre='$act'");
+                    $num_filas =  mysqli_num_rows($result);
+                    if ($num_filas == 0){
+                        $result = mysqli_query($db, "INSERT INTO ACTOR ( nombre )
+                        VALUES
+                        ( '$act' );");
+                    }
+                    $result = mysqli_query($db, "INSERT INTO ACTUA ( ACTOR_nombre, PELICULA_id_pelicula )
+                       VALUES
+                       ( '$act', '$actual' );");
+                }
+                $modified = true;
+            }
+            if ($director != ""){
+                echo "Agregue director";
+                $array_directores = preg_split('/[,]+/', $director, -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($array_directores as $dir){
+                    $dir = trim($dir);
+                    $result = mysqli_query($db, "SELECT * FROM DIRECTOR WHERE nombre='$dir'");
+                    $num_filas =  mysqli_num_rows($result);
+                    if ($num_filas == 0){
+                        $result = mysqli_query($db, "INSERT INTO DIRECTOR ( nombre )
+                           VALUES
+                           ( '$dir' );");
+                    }
+                    $result = mysqli_query($db, "INSERT INTO DIRIGE ( DIRECTOR_nombre, PELICULA_id_pelicula )
+                           VALUES
+                           ( '$dir', '$actual' );");
+                }
+            }
+            if ($modified){
+                $error = "Película actualizada";
+            }
+            else {
+                $error = "Por favor ingrese información para modificar";
+            }
+
+        }
+
+    }
+
+
+ ?>
+
 <?php 
     $titulo = "";
     $genero = "";
@@ -54,11 +154,12 @@
     $actores = "";
     $directores = "";
     $comentarios = "<tr><td>Comentarios: </td>";
-	if(isset($_POST['submit']) or ($estadoComentario == true)) {
+	if(isset($_POST['submit']) or ($estadoComentario == true) or ($estadoPelicula == true)) {
         if (isset($_POST['submit'])) {
             $estadoComentario = false;
+            $estadoPelicula = false;
         }
-        if ($estadoComentario == false){
+        if ($estadoComentario == false && $estadoPelicula == false){
             $selectOption = $_POST['pelis'];
             $_SESSION['peli_actual'] = $selectOption;
         }
@@ -132,7 +233,7 @@
                             $comentarios .= "<td>$info ";
                         }
                         else {
-                            $comentarios .= "<tr><td></td><td>$info: ";
+                            $comentarios .= "<tr><td></td><td>$info ";
                         }
                     }
                     else {
@@ -144,12 +245,33 @@
         }
         $comentarios = trim($comentarios, " ,\r\n");
 
-        $boton = "<button onclick=\"location.href='cartelera.php?ingresarCom=true'\">Ingresar comentario</button><br><br>";
+        $boton = "<button onclick=\"location.href='cartelera.php?ingresarCom=true'\">Ingresar comentario</button> &nbsp &nbsp";
+        if ($tipo != "cliente"){
+            $boton2 = "<button onclick=\"location.href='cartelera.php?modificarPel=true'\">Modificar Película</button>";
+        }
         if ($estadoComentario == true){
-            $form_comentario = "<form action=\"\" method=\"post\">
+            $form_comentario = "<br><br><form action=\"\" method=\"post\">
                                 <label for=\"user\">Texto:   </label>
-                                <input size=\"100\" type=\"text\" name=\"comentario\" id=\"comentario\"><br><br>
+                                <input size=\"70\" type=\"text\" name=\"comentario\" id=\"comentario\"><br><br>
                                 <input type=\"submit\" name=\"comentar\" value=\"Enviar comentario\" class=\"btn btn-primary\"/><br/><br>
+                                </form>
+                                ";
+        }
+        if ($estadoPelicula == true){
+            $form_pelicula = "<br><br><form action=\"\" method=\"post\">
+                                <label for=\"user\">Título:   </label>
+                                <input type=\"text\" name=\"titulo\" id=\"titulo\"><br><br>
+                                <label for=\"user\">Género:   </label>
+                                <input type=\"text\" name=\"genero\" id=\"genero\"><br><br>
+                                <label for=\"user\">Clasificación:   </label>
+                                <input type=\"text\" name=\"clasificacion\" id=\"clasificacion\"><br><br>
+                                <label for=\"user\">Precio:   </label>
+                                <input type=\"text\" name=\"precio\" id=\"precio\"><br><br>
+                                <label for=\"user\">Agregar actores:   </label>
+                                <input size=\"60\" type=\"text\" name=\"actores\" id=\"actores\"><br><br>
+                                <label for=\"user\">Agregar directores:   </label>
+                                <input size=\"60\" type=\"text\" name=\"directores\" id=\"directores\"><br><br>
+                                <input type=\"submit\" name=\"modificar\" value=\"Modificar\" class=\"btn btn-primary\"/><br/><br>
                                 </form>
                                 ";
         }
@@ -197,7 +319,9 @@
     </table>
     <?php 
         echo $boton ;
+        echo $boton2;
         echo $form_comentario;
+        echo $form_pelicula;
     ?>
     <strong><?php echo $error ?></strong>
 
