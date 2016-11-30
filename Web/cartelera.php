@@ -9,9 +9,42 @@
 <?php 
     include("general.php");
     session_start();
+    if (empty($_GET['ingresarCom'])){
+        $estadoComentario=false;
+    }
+    else {
+        $estadoComentario=$_GET['ingresarCom'];
+    }
     $usuario = $_SESSION['usuario'];
     $tipo = $_SESSION['tipo'];
+    $boton = "";
+    $form_comentario = "";
+    $error = "";
 ?>
+
+<?php
+    if (!empty($_POST['comentar'])){
+        if (isset($_POST['comentar'])) {
+            $comentario = $_POST['comentario'];
+            if (strlen($comentario) > 200 ){
+                $error = "Ingrese comentario de a lo más 200 caracteres";
+            }
+            else {
+                $actual = $_SESSION['peli_actual'];
+                if ($tipo == "vendedor" || $tipo == "proyectador"){
+                    $comentario = "[E] " . $comentario;
+                }
+                $result = mysqli_query($db, "INSERT INTO COMENTARIO VALUES
+                       ( '$usuario', '$actual', '$comentario');");
+                $error = "Comentario ingresado";
+            }
+
+        }
+
+    }
+
+
+ ?>
 
 <?php 
     $titulo = "";
@@ -21,8 +54,17 @@
     $actores = "";
     $directores = "";
     $comentarios = "<tr><td>Comentarios: </td>";
-	if(isset($_POST['submit'])) {
-    	$selectOption = $_POST['pelis'];
+	if(isset($_POST['submit']) or ($estadoComentario == true)) {
+        if (isset($_POST['submit'])) {
+            $estadoComentario = false;
+        }
+        if ($estadoComentario == false){
+            $selectOption = $_POST['pelis'];
+            $_SESSION['peli_actual'] = $selectOption;
+        }
+        else {
+            $selectOption = $_SESSION['peli_actual'];
+        }
     	$result = mysqli_query($db, "SELECT * FROM PELICULA WHERE id_pelicula=$selectOption");
         $row = $result->fetch_array(MYSQLI_NUM);
         $i = 0;
@@ -87,7 +129,7 @@
                 foreach ($row as $info) {
                     if ($j % 2 == 0){
                         if ($i == 0){
-                            $comentarios .= "<td>$info: ";
+                            $comentarios .= "<td>$info ";
                         }
                         else {
                             $comentarios .= "<tr><td></td><td>$info: ";
@@ -101,6 +143,16 @@
             }
         }
         $comentarios = trim($comentarios, " ,\r\n");
+
+        $boton = "<button onclick=\"location.href='cartelera.php?ingresarCom=true'\">Ingresar comentario</button><br><br>";
+        if ($estadoComentario == true){
+            $form_comentario = "<form action=\"\" method=\"post\">
+                                <label for=\"user\">Texto:   </label>
+                                <input size=\"100\" type=\"text\" name=\"comentario\" id=\"comentario\"><br><br>
+                                <input type=\"submit\" name=\"comentar\" value=\"Enviar comentario\" class=\"btn btn-primary\"/><br/><br>
+                                </form>
+                                ";
+        }
     }
  ?>
 
@@ -143,6 +195,12 @@
         <tr><td>Director:</td><td><?php  echo $directores?></td></tr>
         <?php  echo $comentarios?>
     </table>
+    <?php 
+        echo $boton ;
+        echo $form_comentario;
+    ?>
+    <strong><?php echo $error ?></strong>
+
 
 </body>
 </html>
