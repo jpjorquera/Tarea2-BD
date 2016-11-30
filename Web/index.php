@@ -68,7 +68,8 @@ if(isset($_POST['submit'])) {
 
 <form action="" method="post">
 	<p><strong><?php echo $error; ?></strong></p>
-	<p>Logear en el sitio</p>
+	<p><strong>Bienvenido a SansanoFilms!</strong></p>
+	<p>Login</p>
 	<label for="user">Usuario:   </label>
 	<input type="text" name="us" id="us"><br><br>
 	<label for="user">Contraseña:   </label>
