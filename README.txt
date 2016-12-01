@@ -1,3 +1,5 @@
+La tarea fue hecha usando Mysql (el archivo exportado fue creado con Mysql Workbench).
+
 Se crearon dos cines, donde los usuarios de cada uno son:
 - Cine 1:	eparedes : proyectador
 		jvillar : vendedor
