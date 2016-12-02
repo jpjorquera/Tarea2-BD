@@ -22,6 +22,8 @@
 
     $SESIONVENDEDOR = $_SESSION['usuario'];
 
+    $row = mysqli_query($db, "SELECT id_empleado FROM cinema.EMPLEADO WHERE USUARIO_user = '$SESIONVENDEDOR' ");
+    foreach (mysqli_fetch_row($row) as $IDempleado);
 
     $row = mysqli_query($db, "SELECT CINE_id_cine FROM cinema.EMPLEADO WHERE USUARIO_user = '$SESIONVENDEDOR' ");
     foreach (mysqli_fetch_row($row) as $cineActual);
@@ -36,7 +38,9 @@
     for ($i=1; $i <= $max_pelis; $i++) { 
       $pelis = mysqli_fetch_row($result);
       foreach ($pelis as $peli) {
-        $select_pelis .= "<option value =   $i />  $peli  </option>";
+        $select_pelis .= "<option value =   $i />  
+
+        $peli  </option>";
      }
     }
     $select_pelis .= "</select>" ;
@@ -46,19 +50,40 @@
 
   
   <?php
-  if(isset($_POST['submit']) or !empty($_SESSION["verificar_dia"]) ) { 
+  if(isset($_POST['submit']) or !empty($_POST['pelis']) ) { 
     $resultpeli = $_POST['pelis'];
     $_SESSION["verificar_dia"] = $resultpeli;
     
     $mostrar = '<br><br><label for="user"> Dia:   </label>';
     $select_dia = '<select name="dia">';
-    $select_dia .= '<option value="1">Lunes</option>';
-    $select_dia .= '<option value="2">Martes</option>';
-    $select_dia .= '<option value="3">Miércoles</option>';
-    $select_dia .= '<option value="4">Jueves</option>';
-    $select_dia .= '<option value="5">Viernes</option>';
-    $select_dia .= '<option value="6">Sábado</option>';
-    $select_dia .= '<option value="7">Domingo</option>';
+    $select_dia .= '<option value="1" 
+    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "1") echo " selected = "" ";
+    ?>
+    >Lunes</option>';
+    $select_dia .= '<option value="2" 
+    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "2") echo " selected = "" ";
+    ?>
+    >Martes</option>';
+    $select_dia .= '<option value="3"
+    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "3") echo " selected = "" ";
+    ?>
+    >Miércoles</option>';
+    $select_dia .= '<option value="4"
+    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "4") echo " selected = "" ";
+    ?>
+    >Jueves</option>';
+    $select_dia .= '<option value="5"
+    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "5") echo " selected = "" ";
+    ?>
+    >Viernes</option>';
+    $select_dia .= '<option value="6"
+    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "6") echo " selected = "" ";
+    ?>
+    >Sábado</option>';
+    $select_dia .= '<option value="7"
+    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "7") echo " selected = "" ";
+    ?>
+    >Domingo</option>';
     $select_dia .= '</select>';
     echo $mostrar;
     echo $select_dia;
@@ -69,6 +94,7 @@
 
     if( isset($_POST['submit2']) or !empty($_SESSION["verificar_hora"]) ) {
       $resultdia = $_POST['dia'];
+      echo $resultdia;
       $_SESSION["verificar_hora"] = $resultdia;
       $mostrar = '<br><br><label for="user"> Hora:   </label>';
       $resultpeli = $_POST['pelis'];
@@ -152,7 +178,7 @@
 
             mysqli_query($db, "INSERT INTO TRANSACCION ( CLIENTE_id_cliente, VENDEDOR_EMPLEADO_id_empleado)
                          VALUES
-                         ('$resultUsuario' , 2 );");
+                         ('$resultUsuario' , '$IDempleado' );");
 
 
             $result = mysqli_query($db, "SELECT id_transaccion FROM cinema.TRANSACCION");
@@ -171,7 +197,7 @@
             for ($i=1; $i <= $resultCantidad ; $i++) { 
               mysqli_query($db, "INSERT INTO TICKET ( asiento, TRANSACCION_id_transaccion, FUNCION_SALA_n_sala, FUNCION_PELICULA_id_pelicula, FUNCION_dia, FUNCION_hora )
                          VALUES
-                         ( '' , '$id_transaccion' , '$numeroSala', '$resultpeli', '$resultdia' , '$resulthora' );");
+                         ( '$i' , '$id_transaccion' , '$numeroSala', '$resultpeli', '$resultdia' , '$resulthora' );");
             }
             
           }
