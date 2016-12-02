@@ -310,10 +310,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cinema`.`TURNO` (
   `hora` INT NOT NULL,
+  `dia` INT NOT NULL,
   `PROYECTADOR_EMPLEADO_id_empleado` INT NOT NULL,
   `SALA_n_sala` INT NOT NULL,
   `SALA_CINE_id_cine` INT NOT NULL,
-  PRIMARY KEY (`hora`, `PROYECTADOR_EMPLEADO_id_empleado`, `SALA_n_sala`, `SALA_CINE_id_cine`),
+  PRIMARY KEY (`hora`, `dia`, `PROYECTADOR_EMPLEADO_id_empleado`, `SALA_n_sala`, `SALA_CINE_id_cine`),
   INDEX `fk_TURNO_PROYECTADOR1_idx` (`PROYECTADOR_EMPLEADO_id_empleado` ASC),
   INDEX `fk_TURNO_SALA1_idx` (`SALA_n_sala` ASC, `SALA_CINE_id_cine` ASC),
   CONSTRAINT `fk_TURNO_PROYECTADOR1`
