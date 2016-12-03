@@ -8,6 +8,7 @@
 <?php 
   include("general.php");
   session_start();
+  error_reporting(E_WARNING);
   ?>
 
 <p>Gestión de Turnos</p>
@@ -86,14 +87,14 @@
       else{
         mysqli_query($db, "INSERT INTO TURNO ( hora, dia, PROYECTADOR_EMPLEADO_id_empleado, SALA_n_sala, SALA_CINE_id_cine)
                          VALUES
-                         ( 'numero_hora', '$numero_dia' , '$IDempleado' , '$numero_sala', '$cineActual' );");
+                         ( '$numero_hora', '$numero_dia' , '$IDempleado' , '$numero_sala', '$cineActual' );");
       }
     }
 
 ?>
 
 
-<br><br><input type="submit" name="borrarTurno" value="VER MIS TURNO" class="btn btn-primary"/><br/>
+<br><br><input type="submit" name="borrarTurno" value="VER MIS TURNOS" class="btn btn-primary"/><br/>
 
 <?php
 
@@ -104,8 +105,8 @@
     $max_fun = -1;
     $select_fun = '<select name="fun">';
     foreach ($ids as $max_fun);
-    $result = mysqli_query($db, "SELECT dia FROM cinema.TURNO, cinema.SALA WHERE PROYECTADOR_EMPLEADO_id_empleado = '$IDempleado' ");
-    for ($i=1; $i <= $max_fun; $i++) { 
+    $result = mysqli_query($db, "SELECT DISTINCT dia FROM cinema.TURNO, cinema.SALA WHERE PROYECTADOR_EMPLEADO_id_empleado = '$IDempleado' ");
+    for ($i=1; $i <= mysqli_num_rows($result); $i++) { 
       $fun = mysqli_fetch_row($result);
       foreach ($fun as $fu) {
         if($fu=='1'){ 
@@ -143,13 +144,15 @@
 
 <?php
 
-  if( isset($_POST['diaT']) ){
+  if( isset($_POST['diaT']) and empty( $_POST['hora']) ){
     $resultdiaT= $_POST['fun'];
+    $_SESSION["verificarDIA"] = $resultdiaT;
+    
     $mostrar = '<br><br><label for="user"> Hora:   </label>';
       $max_id = mysqli_query($db, "SELECT count(PROYECTADOR_EMPLEADO_id_empleado) FROM cinema.TURNO WHERE PROYECTADOR_EMPLEADO_id_empleado = '$IDempleado' AND dia = '$resultdiaT' ");
       $ids = mysqli_fetch_row($max_id);
       $max_fun = -1;
-      $select_fun = '<select name="hora">';
+      $select_fun = '<select name="hora2">';
       foreach ($ids as $max_fun);
       $result = mysqli_query($db, "SELECT hora FROM cinema.TURNO WHERE PROYECTADOR_EMPLEADO_id_empleado = '$IDempleado' AND dia = '$resultdiaT' ");
       for ($i=1; $i <= $max_fun; $i++) { 
@@ -168,10 +171,9 @@
 
 <?php
   $resultdiaT= $_POST['fun'];
-  echo $resultdiaT;
   if( isset($_POST['borrar']) ){
-    $resulthoraT = $_POST['borrar'];
-    $result = mysqli_query($db, "DELETE FROM cinema.TURNO WHERE PROYECTADOR_EMPLEADO_id_empleado = '$IDempleado' AND dia = '$resultdiaT' AND hora = '$resulthoraT' ");
+    $resulthoraT = $_POST['hora2'];
+    $result = mysqli_query($db, "DELETE FROM cinema.TURNO WHERE PROYECTADOR_EMPLEADO_id_empleado = '$IDempleado' AND dia = $_SESSION[verificarDIA] AND hora = '$resulthoraT' ");
   }
 ?>
 

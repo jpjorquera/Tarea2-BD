@@ -89,6 +89,7 @@
     echo $select_dia;
     $guardar = '<input type="submit" name="submit2" value="Aceptar" class="btn btn-primary"/><br/>';
     echo $guardar;
+  }
 
 
 
@@ -116,6 +117,7 @@
       echo $select_fun;
       $guardad = '<input type="submit" name="submit3" value="Aceptar" class="btn btn-primary"/><br/>';
       echo $guardar;
+    }
 
       if( isset($_POST['submit3']) or !empty( $_POST['fun']) ){
         $resulthora = $_POST['fun'];
@@ -169,6 +171,8 @@
           echo $select_fun;
           $guardar = '<br><br><input type="submit" name="submit4" value="REALIZAR COMPRA" class="btn btn-primary"/><br/>';
           echo $guardar;
+        }
+      }
 
 
 
@@ -184,15 +188,6 @@
             $result = mysqli_query($db, "SELECT id_transaccion FROM cinema.TRANSACCION");
             $id_transaccion = mysqli_num_rows($result);
 
-            echo $id_transaccion;
-            echo "|||";
-            echo $numeroSala;
-            echo "|||";
-            echo $resultpeli;
-            echo "|||";
-            echo $resultdia;
-            echo "|||";
-            echo $resulthora;
 
             for ($i=1; $i <= $resultCantidad ; $i++) { 
               mysqli_query($db, "INSERT INTO TICKET ( asiento, TRANSACCION_id_transaccion, FUNCION_SALA_n_sala, FUNCION_PELICULA_id_pelicula, FUNCION_dia, FUNCION_hora )
@@ -200,16 +195,12 @@
                          ( '$i' , '$id_transaccion' , '$numeroSala', '$resultpeli', '$resultdia' , '$resulthora' );");
             }
             
-          }
-        }
-
-      }
-    }
+     
 
   }
   ?>
 
 
-
+</form>
 </body>
 </html>
