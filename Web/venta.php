@@ -8,13 +8,15 @@
 <?php 
   include("general.php");
   session_start();
+
+  error_reporting();
   ?>
 
 
 <p>Venta de Ticket</p>
 
 <button onclick="location.href='index.php'">Home</button>
-<button onclick="location.href='vendedor.php'">Volver</button>
+<button onclick="location.href='empleado.php'">Volver</button>
 
 <form action="" method="post">
   <br><br><label for="user"> Película:   </label>
@@ -50,40 +52,19 @@
 
   
   <?php
-  if(isset($_POST['submit']) or !empty($_POST['pelis']) ) { 
+  if(isset($_POST['submit']) ) { 
     $resultpeli = $_POST['pelis'];
-    $_SESSION["verificar_dia"] = $resultpeli;
+    $_SESSION["verificar_peli"] = $resultpeli;
     
     $mostrar = '<br><br><label for="user"> Dia:   </label>';
     $select_dia = '<select name="dia">';
-    $select_dia .= '<option value="1" 
-    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "1") echo " selected = "" ";
-    ?>
-    >Lunes</option>';
-    $select_dia .= '<option value="2" 
-    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "2") echo " selected = "" ";
-    ?>
-    >Martes</option>';
-    $select_dia .= '<option value="3"
-    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "3") echo " selected = "" ";
-    ?>
-    >Miércoles</option>';
-    $select_dia .= '<option value="4"
-    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "4") echo " selected = "" ";
-    ?>
-    >Jueves</option>';
-    $select_dia .= '<option value="5"
-    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "5") echo " selected = "" ";
-    ?>
-    >Viernes</option>';
-    $select_dia .= '<option value="6"
-    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "6") echo " selected = "" ";
-    ?>
-    >Sábado</option>';
-    $select_dia .= '<option value="7"
-    <?php if(isset($_POST["dia"]) && $_POST["dia"] == "7") echo " selected = "" ";
-    ?>
-    >Domingo</option>';
+    $select_dia .= '<option value="1">Lunes</option>';
+    $select_dia .= '<option value="2">Martes</option>';
+    $select_dia .= '<option value="3">Miércoles</option>';
+    $select_dia .= '<option value="4">Jueves</option>';
+    $select_dia .= '<option value="5">Viernes</option>';
+    $select_dia .= '<option value="6">Sábado</option>';
+    $select_dia .= '<option value="7">Domingo</option>';
     $select_dia .= '</select>';
     echo $mostrar;
     echo $select_dia;
@@ -93,10 +74,9 @@
 
 
 
-    if( isset($_POST['submit2']) or !empty($_SESSION["verificar_hora"]) ) {
+    if( isset($_POST['submit2']) ) {
       $resultdia = $_POST['dia'];
-      echo $resultdia;
-      $_SESSION["verificar_hora"] = $resultdia;
+      $_SESSION["verificar_dia"] = $resultdia;
       $mostrar = '<br><br><label for="user"> Hora:   </label>';
       $resultpeli = $_POST['pelis'];
       $max_id = mysqli_query($db, "SELECT count(PELICULA_id_pelicula) FROM cinema.FUNCION WHERE PELICULA_id_pelicula = '$resultpeli' AND dia = '$resultdia' ");
@@ -115,12 +95,13 @@
       $select_fun .= "</select>" ;
       echo $mostrar;
       echo $select_fun;
-      $guardad = '<input type="submit" name="submit3" value="Aceptar" class="btn btn-primary"/><br/>';
+      $guardar = '<input type="submit" name="submit3" value="Aceptar" class="btn btn-primary"/><br/>';
       echo $guardar;
     }
 
-      if( isset($_POST['submit3']) or !empty( $_POST['fun']) ){
+      if( isset($_POST['submit3']) ){
         $resulthora = $_POST['fun'];
+        $_SESSION["verificar_hora"] = $resultdiaT;
 
 
         $mostrar = '<br><br><label for="user"> Asientos Disponibles:   </label>';
@@ -176,7 +157,7 @@
 
 
 
-          if( isset($_POST['submit4']) or !empty( $_POST['nombreUSUARIO']) ){
+          if( isset($_POST['submit4'])  ){
             $resultCantidad = $_POST['cantidadTickets'];
             $resultUsuario = $_POST['nombreUsuario'];
 
@@ -192,7 +173,7 @@
             for ($i=1; $i <= $resultCantidad ; $i++) { 
               mysqli_query($db, "INSERT INTO TICKET ( asiento, TRANSACCION_id_transaccion, FUNCION_SALA_n_sala, FUNCION_PELICULA_id_pelicula, FUNCION_dia, FUNCION_hora )
                          VALUES
-                         ( '$i' , '$id_transaccion' , '$numeroSala', '$resultpeli', '$resultdia' , '$resulthora' );");
+                         ( '$i' , '$id_transaccion' , '$numeroSala', $_SESSION[verificar_peli], $_SESSION[verificar_dia] , $_SESSION[verificar_hora] );");
             }
             
      
