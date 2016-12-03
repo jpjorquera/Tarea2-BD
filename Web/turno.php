@@ -14,7 +14,7 @@
 <p>Gestión de Turnos</p>
 
 <button onclick="location.href='index.php'">Home</button>
-<button onclick="location.href='proyectador.php'">Volver</button>
+<button onclick="location.href='empleado.php'">Volver</button>
 
 <form action="" method="post">
 <?php

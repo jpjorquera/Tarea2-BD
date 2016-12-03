@@ -15,5 +15,15 @@
 <button onclick="location.href='ingresar_funcion.php'">Ingresar Función</button><br><br>
 <button onclick="location.href='cartelera.php'">Ver cartelera</button><br><br>
 
+
+<?php 
+    if ($tipo == "proyectador"){
+        echo "<button onclick=\"location.href='turno.php'\">Gestionar Turnos</button><br><br>";
+    }
+    else {
+        echo "<button onclick=\"location.href='venta.php'\">Vender Tickets</button><br><br>";
+    }
+ ?>
+
 </body>
 </html>
